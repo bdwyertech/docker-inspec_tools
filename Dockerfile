@@ -18,10 +18,12 @@ LABEL org.opencontainers.image.title="bdwyertech/inspec_tools" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE
 
-RUN apk add --virtual .build-deps build-base curl \
+RUN apk add --virtual .build-deps bash build-base curl \
     && gem install inspec_tools \
-    && apk del .build-deps
+    && apk del .build-deps \
+    && adduser inspec -h /home/inspec -D
 
-RUN apk add bash
+USER inspec
+WORKDIR /inspec
 
 CMD ["bash"]
